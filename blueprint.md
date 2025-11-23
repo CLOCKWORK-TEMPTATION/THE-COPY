@@ -1,38 +1,50 @@
-# Blueprint
 
-## Overview
+# Project Blueprint
 
-This document outlines the project's purpose, capabilities, style, design, and features. It also tracks the plan and steps for requested changes.
+## 1. Overview
 
-## Project Details
+The project is a full-stack web application built with .NET, consisting of a Blazor WebAssembly client and an ASP.NET Core server. The backend is designed with a "Code-First" approach, utilizing PostgreSQL for relational data and MongoDB for non-relational data. The application follows a clean architecture with a clear separation of concerns between the presentation, application, domain, and infrastructure layers.
 
-### Purpose and Capabilities
+## 2. Implemented Features
 
-This is a .NET web application built with ASP.NET Core. The project is designed for development within the Firebase Studio environment. It leverages a "Fat Model, Skinny Controller" approach, with a focus on creating a robust and scalable application.
+### 2.1. Solution Structure
 
-### Style, Design, and Features
+The solution is organized into three projects:
 
-*   **Backend:** C#, ASP.NET Core, Entity Framework Core
-*   **Frontend:** Razor Pages/MVC
-*   **Database:** Code-First approach with EF Core Migrations
-*   **Dependency Management:** NuGet for .NET, npm for frontend (if applicable)
-*   **Configuration:** `appsettings.json` and User Secrets
-*   **Development Environment:** Nix-based environment defined in `dev.nix`
+*   `TheCopy.Server`: The ASP.NET Core backend application.
+*   `TheCopy.Client`: The Blazor WebAssembly frontend application.
+*   `TheCopy.Shared`: A shared library for DTOs and other common code.
 
-## Current Change Request
+### 2.2. Database and Services
 
-### Plan (Reverted... again)
+*   **Database Entities:**
+    *   `User`: Represents the user of the application.
+    *   `Project`: Represents a user's project.
+    *   `Script`: Represents a script within a project.
+*   **Database Context:** `ApplicationDbContext` is configured for Entity Framework Core with PostgreSQL, defining the relationships between the entities.
+*   **MongoDB Service:** A `MongoService` is implemented to manage the connection to a MongoDB database.
+*   **API Endpoint:** A verification endpoint `api/Scripts/verify-db` is available to check the database connectivity status.
+*   **CORS:** Cross-Origin Resource Sharing is configured to allow requests from the Blazor client application.
 
-1.  **Initial Goal:** Install the Doppler CLI.
-2.  **First Attempt:** Added `pkgs.doppler-cli` to `dev.nix` with the `stable` channel. This caused an environment build failure.
-3.  **First Rollback:** Reverted the changes to `dev.nix`.
-4.  **Second Attempt:** Changed the channel in `dev.nix` to `unstable` and re-added `pkgs.doppler-cli`. This also caused an environment build failure.
-5.  **Second Rollback:** Reverted the changes to `dev.nix` again to restore a stable working environment.
+## 3. Current Changes: Database Connectivity & Entity Setup
 
-### Steps
+The following steps were taken to implement the database layer in `TheCopy.Server`:
 
-- [x] ~~Attempt to install `doppler-cli` via `dev.nix` on `stable` channel.~~ (Failed)
-- [x] Revert `dev.nix`.
-- [x] ~~Attempt to install `doppler-cli` via `dev.nix` on `unstable` channel.~~ (Failed)
-- [x] Revert `dev.nix` to original state.
-- [x] Update `blueprint.md` to document the process.
+1.  **Created Database Entities (PostgreSQL):**
+    *   Created `User.cs`, `Project.cs`, and `Script.cs` in `TheCopy.Server/Entities` to define the database schema using a "Code-First" approach.
+
+2.  **Set Up Entity Framework Core (PostgreSQL):**
+    *   Created `Data/ApplicationDbContext.cs` inheriting from `DbContext`.
+    *   Included `DbSet` properties for `User`, `Project`, and `Script`.
+    *   Overrode `OnModelCreating` to configure relationships and constraints.
+
+3.  **Set Up MongoDB Service:**
+    *   Created `Services/MongoService.cs` to manage the MongoDB connection and expose a `GetCollection` method.
+
+4.  **Registered Services in Program.cs:**
+    *   Registered `ApplicationDbContext` for PostgreSQL.
+    *   Registered `MongoService` as a singleton.
+    *   Configured a CORS policy to allow requests from the client application.
+
+5.  **Created Verification Endpoint:**
+    *   Updated `ScriptsController` with an endpoint to verify the connectivity of both PostgreSQL and MongoDB.

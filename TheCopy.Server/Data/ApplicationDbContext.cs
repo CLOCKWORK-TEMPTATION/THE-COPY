@@ -1,3 +1,4 @@
+
 using Microsoft.EntityFrameworkCore;
 using TheCopy.Server.Entities;
 
@@ -17,21 +18,19 @@ public class ApplicationDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        // User Configuration
         modelBuilder.Entity<User>()
             .HasIndex(u => u.Email)
             .IsUnique();
 
-        modelBuilder.Entity<User>()
-            .HasMany(u => u.Projects)
-            .WithOne(p => p.User)
+        modelBuilder.Entity<Project>()
+            .HasOne(p => p.User)
+            .WithMany(u => u.Projects)
             .HasForeignKey(p => p.UserId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        // Project Configuration
-        modelBuilder.Entity<Project>()
-            .HasMany(p => p.Scripts)
-            .WithOne(s => s.Project)
+        modelBuilder.Entity<Script>()
+            .HasOne(s => s.Project)
+            .WithMany(p => p.Scripts)
             .HasForeignKey(s => s.ProjectId)
             .OnDelete(DeleteBehavior.Cascade);
     }

@@ -1,3 +1,5 @@
+
+using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 
 namespace TheCopy.Server.Services;
@@ -8,10 +10,8 @@ public class MongoService
 
     public MongoService(IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("MongoDbConnection");
-        var mongoUrl = MongoUrl.Create(connectionString);
-        var client = new MongoClient(mongoUrl);
-        _database = client.GetDatabase(mongoUrl.DatabaseName);
+        var client = new MongoClient(configuration.GetConnectionString("MongoDbConnection"));
+        _database = client.GetDatabase("TheCopyDb");
     }
 
     public IMongoCollection<T> GetCollection<T>(string collectionName)

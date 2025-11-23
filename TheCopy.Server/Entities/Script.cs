@@ -1,3 +1,5 @@
+
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -6,16 +8,20 @@ namespace TheCopy.Server.Entities;
 public class Script
 {
     [Key]
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     [Required]
-    [MaxLength(200)]
-    public string Title { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
 
     public string Content { get; set; } = string.Empty;
 
-    public int ProjectId { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-    [ForeignKey(nameof(ProjectId))]
-    public Project? Project { get; set; }
+    // Foreign key for Project
+    public Guid ProjectId { get; set; }
+
+    // Navigation property for the related Project
+    [ForeignKey("ProjectId")]
+    public virtual Project Project { get; set; } = null!;
 }

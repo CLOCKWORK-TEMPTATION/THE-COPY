@@ -1,3 +1,6 @@
+
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -6,21 +9,22 @@ namespace TheCopy.Server.Entities;
 public class Project
 {
     [Key]
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     [Required]
-    [MaxLength(100)]
+    [MaxLength(255)]
     public string Name { get; set; } = string.Empty;
 
-    [MaxLength(500)]
-    public string Description { get; set; } = string.Empty;
-
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-    public int UserId { get; set; }
+    // Foreign key for User
+    public Guid UserId { get; set; }
 
-    [ForeignKey(nameof(UserId))]
-    public User? User { get; set; }
+    // Navigation property for the related User
+    [ForeignKey("UserId")]
+    public virtual User User { get; set; } = null!;
 
-    public ICollection<Script> Scripts { get; set; } = new List<Script>();
+    // Navigation property for related Scripts
+    public virtual ICollection<Script> Scripts { get; set; } = new List<Script>();
 }

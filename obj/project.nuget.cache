@@ -1,12 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "sSuxhmamwC4=",
+  "dgSpecHash": "4Up4hTI6LEw=",
   "success": true,
   "projectFilePath": "/home/user/the-copy/myapp.csproj",
   "expectedPackageFiles": [
-    "/home/user/.nuget/packages/microsoft.netcore.app.ref/9.0.3/microsoft.netcore.app.ref.9.0.3.nupkg.sha512",
-    "/home/user/.nuget/packages/microsoft.aspnetcore.app.ref/9.0.3/microsoft.aspnetcore.app.ref.9.0.3.nupkg.sha512",
-    "/home/user/.nuget/packages/microsoft.netcore.app.host.linux-x64/9.0.3/microsoft.netcore.app.host.linux-x64.9.0.3.nupkg.sha512"
+    "/home/user/.nuget/packages/microsoft.aspnetcore.app.internal.assets/10.0.0-rc.2.25502.107/microsoft.aspnetcore.app.internal.assets.10.0.0-rc.2.25502.107.nupkg.sha512"
   ],
   "logs": []
 }

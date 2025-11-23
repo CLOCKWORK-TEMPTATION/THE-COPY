@@ -1,9 +1,22 @@
+
 @inherits LayoutComponentBase
+@using Microsoft.AspNetCore.Components.Authorization
 
 <div class="page">
     <main>
         <article class="content px-4">
-            @Body
+            <AuthorizeView>
+                <Authorized>
+                    <a href="/" class="btn btn-link">Home</a>
+                    <a href="/auth/logout" class="btn btn-link">Logout</a>
+                    @Body
+                </Authorized>
+                <NotAuthorized>
+                    <a href="/auth/login" class="btn btn-link">Login</a>
+                    <a href="/auth/register" class="btn btn-link">Register</a>
+                    @Body
+                </NotAuthorized>
+            </AuthorizeView>
         </article>
     </main>
 </div>

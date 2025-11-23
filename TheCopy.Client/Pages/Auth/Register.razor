@@ -1,0 +1,40 @@
+
+@page "/auth/register"
+@using TheCopy.Client.Services
+@using TheCopy.Shared.DataTransferObjects
+@inject ApiClient ApiClient
+@inject NavigationManager NavManager
+
+<h3>Register</h3>
+
+<EditForm Model="@registerRequest" OnValidSubmit="HandleRegistration">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Email</label>
+        <InputText @bind-Value="registerRequest.Email" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Password</label>
+        <InputText @bind-Value="registerRequest.Password" type="password" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Register</button>
+</EditForm>
+
+@code {
+    private RegisterRequestDto registerRequest = new();
+
+    private async Task HandleRegistration()
+    {
+        var result = await ApiClient.Register(registerRequest);
+        if (!string.IsNullOrEmpty(result.Token))
+        {
+            NavManager.NavigateTo("/auth/login");
+        }
+        else
+        {
+            // Handle registration failure
+        }
+    }
+}

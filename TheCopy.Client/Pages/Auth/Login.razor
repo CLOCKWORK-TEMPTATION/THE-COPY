@@ -1,0 +1,45 @@
+
+@page "/auth/login"
+@using TheCopy.Client.Providers
+@using TheCopy.Client.Services
+@using TheCopy.Shared.DataTransferObjects
+@inject ApiClient ApiClient
+@inject AuthenticationStateProvider AuthProvider
+@inject NavigationManager NavManager
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+
+<h3>Login</h3>
+
+<EditForm Model="@loginRequest" OnValidSubmit="HandleLogin">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Email</label>
+        <InputText @bind-Value="loginRequest.Email" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Password</label>
+        <InputText @bind-Value="loginRequest.Password" type="password" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Login</button>
+</EditForm>
+
+@code {
+    private LoginRequestDto loginRequest = new();
+
+    private async Task HandleLogin()
+    {
+        var result = await ApiClient.Login(loginRequest);
+        if (!string.IsNullOrEmpty(result.Token))
+        {
+            await localStorage.SetItemAsync("authToken", result.Token);
+            ((CustomAuthStateProvider)AuthProvider).MarkUserAsAuthenticated(result.Token);
+            NavManager.NavigateTo("/");
+        }
+        else
+        {
+            // Handle login failure (e.g., show an error message)
+        }
+    }
+}

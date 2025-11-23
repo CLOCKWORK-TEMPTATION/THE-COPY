@@ -77,3 +77,5 @@
 /home/user/the-copy/obj/Debug/net9.0/myapp.pdb
 /home/user/the-copy/obj/Debug/net9.0/myapp.genruntimeconfig.cache
 /home/user/the-copy/obj/Debug/net9.0/ref/myapp.dll
+/home/user/the-copy/obj/Debug/net9.0/myapp.sourcelink.json
+/home/user/the-copy/obj/Debug/net9.0/rpswa.dswa.cache.json

@@ -1,5 +1,7 @@
 is_global = true
 build_property.TargetFramework = net9.0
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkVersion = v9.0
 build_property.TargetPlatformMinVersion = 
 build_property.UsingMicrosoftNETSdkWeb = true
 build_property.ProjectTypeGuids = 
@@ -46,6 +48,22 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/home/user/the-copy/Components/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9fSW1wb3J0cy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/user/the-copy/TheCopy.Client/App.razor]
+build_metadata.AdditionalFiles.TargetPath = VGhlQ29weS5DbGllbnQvQXBwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/user/the-copy/TheCopy.Client/Layout/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = VGhlQ29weS5DbGllbnQvTGF5b3V0L01haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/user/the-copy/TheCopy.Client/Pages/Home.razor]
+build_metadata.AdditionalFiles.TargetPath = VGhlQ29weS5DbGllbnQvUGFnZXMvSG9tZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/user/the-copy/TheCopy.Client/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = VGhlQ29weS5DbGllbnQvX0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/user/the-copy/Components/Layout/MainLayout.razor]

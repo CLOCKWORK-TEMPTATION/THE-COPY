@@ -378,6 +378,43 @@
         }
       },
       {
+        "HashCode": -115331463,
+        "Kind": "Components.Component",
+        "Name": "myapp.src.TheCopy_Client.App",
+        "AssemblyName": "myapp",
+        "CaseSensitive": true,
+        "TagMatchingRules": [
+          {
+            "TagName": "App"
+          }
+        ],
+        "Metadata": {
+          "Common.TypeName": "myapp.src.TheCopy_Client.App",
+          "Common.TypeNameIdentifier": "App",
+          "Common.TypeNamespace": "myapp.src.TheCopy_Client",
+          "Runtime.Name": "Components.IComponent"
+        }
+      },
+      {
+        "HashCode": 1184579426,
+        "Kind": "Components.Component",
+        "Name": "myapp.src.TheCopy_Client.App",
+        "AssemblyName": "myapp",
+        "CaseSensitive": true,
+        "TagMatchingRules": [
+          {
+            "TagName": "myapp.src.TheCopy_Client.App"
+          }
+        ],
+        "Metadata": {
+          "Common.TypeName": "myapp.src.TheCopy_Client.App",
+          "Common.TypeNameIdentifier": "App",
+          "Common.TypeNamespace": "myapp.src.TheCopy_Client",
+          "Components.NameMatch": "Components.FullyQualifiedNameMatch",
+          "Runtime.Name": "Components.IComponent"
+        }
+      },
+      {
         "HashCode": -1840757166,
         "Kind": "Components.Component",
         "Name": "Microsoft.AspNetCore.Components.Authorization.AuthorizeRouteView",
@@ -19858,6 +19895,16 @@
     {
       "FilePath": "/home/user/the-copy/Components/Layout/NavMenu.razor",
       "TargetPath": "Components\\Layout\\NavMenu.razor",
+      "FileKind": "component"
+    },
+    {
+      "FilePath": "/home/user/the-copy/src/TheCopy.Client/_Imports.razor",
+      "TargetPath": "src\\TheCopy.Client\\_Imports.razor",
+      "FileKind": "componentImport"
+    },
+    {
+      "FilePath": "/home/user/the-copy/src/TheCopy.Client/App.razor",
+      "TargetPath": "src\\TheCopy.Client\\App.razor",
       "FileKind": "component"
     },
     {

@@ -1,12 +1,10 @@
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Threading.Tasks;
-using TheCopy.Server.Data;
-using TheCopy.Server.Entities;
+using TheCopy.Application.Interfaces;
+using TheCopy.Domain.Entities;
 using TheCopy.Shared.DataTransferObjects;
+using TheCopy.Infrastructure.Data; // Required for SaveChangesAsync
 
 namespace TheCopy.Server.Controllers;
 
@@ -15,32 +13,33 @@ namespace TheCopy.Server.Controllers;
 [Authorize]
 public class ProjectsController : ControllerBase
 {
-    private readonly ApplicationDbContext _context;
+    private readonly IProjectRepository _projectRepository;
+    private readonly ApplicationDbContext _context; // Temporary, for unit of work
 
-    public ProjectsController(ApplicationDbContext context)
+    public ProjectsController(IProjectRepository projectRepository, ApplicationDbContext context)
     {
+        _projectRepository = projectRepository;
         _context = context;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var projects = await _context.Projects
-            .Select(p => new ProjectDto
-            {
-                Id = p.Id,
-                Name = p.Name,
-                CreatedAt = p.CreatedAt
-            })
-            .ToListAsync();
+        var projects = await _projectRepository.GetAllAsync();
+        var projectDtos = projects.Select(p => new ProjectDto
+        {
+            Id = p.Id,
+            Name = p.Name,
+            CreatedAt = p.CreatedAt
+        }).ToList();
 
-        return Ok(projects);
+        return Ok(projectDtos);
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(int id)
+    public async Task<IActionResult> GetById(Guid id)
     {
-        var project = await _context.Projects.FindAsync(id);
+        var project = await _projectRepository.GetByIdAsync(id);
 
         if (project == null)
         {
@@ -66,26 +65,30 @@ public class ProjectsController : ControllerBase
             CreatedAt = DateTime.UtcNow
         };
 
-        _context.Projects.Add(project);
+        await _projectRepository.AddAsync(project);
         await _context.SaveChangesAsync();
 
-        projectDto.Id = project.Id;
-        projectDto.CreatedAt = project.CreatedAt;
+        var newProjectDto = new ProjectDto
+        {
+            Id = project.Id,
+            Name = project.Name,
+            CreatedAt = project.CreatedAt
+        };
 
-        return CreatedAtAction(nameof(GetById), new { id = project.Id }, projectDto);
+        return CreatedAtAction(nameof(GetById), new { id = project.Id }, newProjectDto);
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(Guid id)
     {
-        var project = await _context.Projects.FindAsync(id);
+        var project = await _projectRepository.GetByIdAsync(id);
 
         if (project == null)
         {
             return NotFound();
         }
 
-        _context.Projects.Remove(project);
+        _projectRepository.Remove(project);
         await _context.SaveChangesAsync();
 
         return NoContent();

@@ -1,48 +1,51 @@
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
-using TheCopy.Server.Data;
-using TheCopy.Server.Entities;
-using TheCopy.Server.Services;
+using TheCopy.Application.Interfaces;
 using TheCopy.Shared.DataTransferObjects;
 
-namespace TheCopy.Server.Controllers;
-
-[ApiController]
-[Route("api/[controller]")]
-[Authorize]
-public class ScriptsController : ControllerBase
+namespace TheCopy.Server.Controllers
 {
-    private readonly ApplicationDbContext _context;
-    private readonly MongoService _mongoService;
-
-    public ScriptsController(ApplicationDbContext context, MongoService mongoService)
+    [ApiController]
+    [Route("api/[controller]")]
+    [Authorize]
+    public class ScriptsController : ControllerBase
     {
-        _context = context;
-        _mongoService = mongoService;
-    }
+        private readonly IScriptService _scriptService;
 
-    [HttpPost]
-    public async Task<IActionResult> Create(ScriptDto scriptDto)
-    {
-        var script = new Script
+        public ScriptsController(IScriptService scriptService)
         {
-            ProjectId = scriptDto.ProjectId,
-            Name = scriptDto.Name,
-            Content = scriptDto.Content,
-            CreatedAt = DateTime.UtcNow
-        };
+            _scriptService = scriptService;
+        }
 
-        _context.Scripts.Add(script);
-        await _context.SaveChangesAsync();
+        [HttpPost("generate")]
+        public async Task<IActionResult> GenerateScript(CreateScriptRequestDto model)
+        {
+            try
+            {
+                var script = await _scriptService.CreateScript(model);
+                var scriptDto = new GeneratedScriptDto
+                {
+                    Id = script.Id,
+                    Title = script.Title,
+                    Content = script.Content,
+                    ProjectId = script.ProjectId,
+                    CreatedAt = script.CreatedAt
+                };
+                return Ok(scriptDto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
-        var scriptAnalysis = new { ScriptId = script.Id, Status = "Pending" };
-        await _mongoService.GetCollection<object>("ScriptAnalyses").InsertOneAsync(scriptAnalysis);
-
-        scriptDto.Id = script.Id;
-        scriptDto.CreatedAt = script.CreatedAt;
-
-        return Ok(scriptDto);
+        [HttpGet("project/{projectId}")]
+        public async Task<IActionResult> GetScriptsByProject(Guid projectId)
+        {
+            var scripts = await _scriptService.GetScriptsByProject(projectId);
+            return Ok(scripts);
+        }
     }
 }

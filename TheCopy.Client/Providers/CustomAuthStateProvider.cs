@@ -4,6 +4,10 @@ using Microsoft.AspNetCore.Components.Authorization;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
+using System;
+using System.Text.Json;
 
 namespace TheCopy.Client.Providers;
 
@@ -46,12 +50,12 @@ public class CustomAuthStateProvider : AuthenticationStateProvider
         NotifyAuthenticationStateChanged(authState);
     }
 
-    private IEnumerable<Claim> ParseClaimsFromJwt(string jwt)
+    private List<Claim> ParseClaimsFromJwt(string jwt)
     {
         var claims = new List<Claim>();
         var payload = jwt.Split('.')[1];
         var jsonBytes = ParseBase64WithoutPadding(payload);
-        var keyValuePairs = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(jsonBytes);
+        var keyValuePairs = JsonSerializer.Deserialize<Dictionary<string, object>>(jsonBytes);
 
         if (keyValuePairs != null)
         {
@@ -61,7 +65,7 @@ public class CustomAuthStateProvider : AuthenticationStateProvider
             {
                 if (roles.ToString().Trim().StartsWith("["))
                 {
-                    var parsedRoles = System.Text.Json.JsonSerializer.Deserialize<string[]>(roles.ToString());
+                    var parsedRoles = JsonSerializer.Deserialize<string[]>(roles.ToString());
 
                     foreach (var parsedRole in parsedRoles)
                     {

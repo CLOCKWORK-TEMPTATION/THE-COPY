@@ -1,7 +1,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using TheCopy.Server.Services;
+using TheCopy.Application.Interfaces;
 using TheCopy.Shared.DataTransferObjects;
 
 namespace TheCopy.Server.Controllers;
@@ -10,9 +10,9 @@ namespace TheCopy.Server.Controllers;
 [Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
-    private readonly AuthService _authService;
+    private readonly IAuthService _authService;
 
-    public AuthController(AuthService authService)
+    public AuthController(IAuthService authService)
     {
         _authService = authService;
     }
@@ -23,11 +23,12 @@ public class AuthController : ControllerBase
         try
         {
             var user = await _authService.Register(model);
-            return Ok(new { message = "Registration successful" });
+            var token = _authService.Login(new LoginRequestDto { Email = user.Email, Password = model.Password });
+            return Ok(new AuthResponseDto { Token = token });
         }
-        catch (Exception ex)
+        catch (System.Exception ex)
         {
-            return BadRequest(new { message = ex.Message });
+            return BadRequest(ex.Message);
         }
     }
 
@@ -37,15 +38,11 @@ public class AuthController : ControllerBase
         try
         {
             var token = _authService.Login(model);
-            return Ok(new { token });
+            return Ok(new AuthResponseDto { Token = token });
         }
-        catch (UnauthorizedAccessException ex)
+        catch (System.UnauthorizedAccessException ex)
         {
-            return Unauthorized(new { message = ex.Message });
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(new { message = ex.Message });
+            return Unauthorized(ex.Message);
         }
     }
 }

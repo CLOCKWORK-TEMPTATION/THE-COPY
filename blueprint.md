@@ -1,37 +1,30 @@
-# TheCopy - Blueprint
+# Blueprint
 
 ## Overview
 
-TheCopy is a web application for copywriters to manage their projects and scripts. It provides a secure and organized environment to store, analyze, and track their work.
+This project is a full-stack web application built with .NET. It uses a "Fat Model, Skinny Controller" approach, with a clean architecture that separates the presentation, application, domain, and infrastructure layers.
+
+## Project Structure
+
+- **TheCopy.Client:** Blazor client application.
+- **TheCopy.Server:** ASP.NET Core web API.
+- **TheCopy.Application:** Business logic and use cases.
+- **TheCopy.Domain:** Core business entities and models.
+- **TheCopy.Infrastructure:** Data access with Entity Framework Core and external services.
 
 ## Features
 
-- **Authentication:** Secure user registration and login with JWT authentication.
-- **Project Management:** Create, view, and delete projects to organize scripts.
-- **Script Management:** Upload scripts and store them in a PostgreSQL database.
-- **Script Analysis:** Basic script analysis placeholder in MongoDB.
+- User authentication and authorization with JWT.
+- Project and script management.
+- AI-powered script generation.
 
-## Backend Architecture
+## Design
 
-- **Framework:** ASP.NET Core
-- **Database:**
-    - PostgreSQL for structured data (Users, Projects, Scripts).
-    - MongoDB for unstructured data (Script Analysis).
-- **Authentication:** JWT Bearer Tokens.
-- **Services:**
-    - `AuthService`: Handles user registration and login.
-    - `MongoService`: Manages interactions with MongoDB.
-- **Controllers:**
-    - `AuthController`: Exposes registration and login endpoints.
-    - `ProjectsController`: Manages project-related operations.
-    - `ScriptsController`: Handles script uploads and analysis placeholders.
+- The application uses a modern, clean design with a focus on usability.
+- The color scheme is based on a palette of blues and grays.
+- The typography is clear and easy to read.
+- The layout is responsive and works well on both desktop and mobile devices.
 
-## Frontend (To be implemented)
+## Current Task
 
-- **Framework:** Vue.js (or similar modern frontend framework).
-- **Styling:** Tailwind CSS (or similar utility-first CSS framework).
-
-## Current Plan
-
-- The current focus is on building the backend infrastructure.
-- The next step is to develop the frontend application to interact with the backend APIs.
+I have just finished scaffolding out the initial project structure and fixed all the compilation errors. Now I will run the application to make sure everything is working as expected.

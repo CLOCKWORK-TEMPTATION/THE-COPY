@@ -6,58 +6,62 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using TheCopy.Server.Data;
-using TheCopy.Server.Entities;
+using TheCopy.Application.Interfaces;
+using TheCopy.Domain.Entities;
 using TheCopy.Shared.DataTransferObjects;
 
-namespace TheCopy.Server.Services;
+namespace TheCopy.Application.Services;
 
 public class AuthService
 {
-    private readonly ApplicationDbContext _context;
+    private readonly IUserRepository _userRepository;
     private readonly IConfiguration _configuration;
 
-    public AuthService(ApplicationDbContext context, IConfiguration configuration)
+    public AuthService(IUserRepository userRepository, IConfiguration configuration)
     {
-        _context = context;
+        _userRepository = userRepository;
         _configuration = configuration;
     }
 
     public async Task<User> Register(RegisterRequestDto model)
     {
+        var existingUser = await _userRepository.GetByEmailAsync(model.Email);
+        if (existingUser != null)
+        {
+            throw new Exception("User with this email already exists.");
+        }
+
         var user = new User
         {
             Email = model.Email,
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.Password)
         };
 
-        _context.Users.Add(user);
-        await _context.SaveChangesAsync();
+        await _userRepository.AddAsync(user);
 
         return user;
     }
 
     public string Login(LoginRequestDto model)
     {
-        var user = _context.Users.SingleOrDefault(u => u.Email == model.Email);
-
+        var user = _userRepository.GetByEmailAsync(model.Email).Result;
         if (user == null || !BCrypt.Net.BCrypt.Verify(model.Password, user.PasswordHash))
         {
-            throw new UnauthorizedAccessException("Invalid credentials");
+            throw new UnauthorizedAccessException("Invalid credentials.");
         }
 
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);
-
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(new[] { new Claim("id", user.Id.ToString()) }),
+            Subject = new ClaimsIdentity(new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Email, user.Email)
+            }),
             Expires = DateTime.UtcNow.AddDays(7),
-            Issuer = _configuration["Jwt:Issuer"],
-            Audience = _configuration["Jwt:Audience"],
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
-
         var token = tokenHandler.CreateToken(tokenDescriptor);
         return tokenHandler.WriteToken(token);
     }

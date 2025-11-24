@@ -1,8 +1,8 @@
 
 using Microsoft.EntityFrameworkCore;
-using TheCopy.Server.Entities;
+using TheCopy.Domain.Entities;
 
-namespace TheCopy.Server.Data;
+namespace TheCopy.Infrastructure.Data;
 
 public class ApplicationDbContext : DbContext
 {

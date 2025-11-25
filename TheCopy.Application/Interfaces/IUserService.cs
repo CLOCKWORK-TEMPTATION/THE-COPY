@@ -1,4 +1,4 @@
-using TheCopy.Shared.Models;
+using TheCopy.Shared.DataTransferObjects;
 namespace TheCopy.Application.Interfaces;
 
 public interface IUserService

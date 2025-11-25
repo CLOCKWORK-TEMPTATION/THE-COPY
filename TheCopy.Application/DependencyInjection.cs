@@ -11,6 +11,7 @@ namespace TheCopy.Application
             services.AddScoped<IScriptService, ScriptService>();
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAuthService, AuthService>();
             return services;
         }
     }

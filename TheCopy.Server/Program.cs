@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using TheCopy.Application.Extensions;
-using TheCopy.Infrastructure.Extensions;
+using TheCopy.Application;
+using TheCopy.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 

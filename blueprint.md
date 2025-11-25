@@ -1,30 +1,29 @@
-# Blueprint
+# Blueprint: TheCopy
 
 ## Overview
 
-This project is a full-stack web application built with .NET. It uses a "Fat Model, Skinny Controller" approach, with a clean architecture that separates the presentation, application, domain, and infrastructure layers.
+TheCopy is a web application designed to allow users to manage and share code snippets, scripts, and project templates. It provides a collaborative space for developers to store, discover, and reuse code.
 
-## Project Structure
+## Features & Design
 
-- **TheCopy.Client:** Blazor client application.
-- **TheCopy.Server:** ASP.NET Core web API.
-- **TheCopy.Application:** Business logic and use cases.
-- **TheCopy.Domain:** Core business entities and models.
-- **TheCopy.Infrastructure:** Data access with Entity Framework Core and external services.
-
-## Features
-
-- User authentication and authorization with JWT.
-- Project and script management.
-- AI-powered script generation.
-
-## Design
-
-- The application uses a modern, clean design with a focus on usability.
-- The color scheme is based on a palette of blues and grays.
-- The typography is clear and easy to read.
-- The layout is responsive and works well on both desktop and mobile devices.
+*   **Authentication:** Users can register and log in to the application.
+*   **Project Management:** Users can create, view, and manage their projects.
+*   **Script Management:** Users can add, edit, and delete scripts within their projects.
+*   **AI-Powered Assistance:** The application integrates with a generative AI service to provide assistance.
+*   **Clean Architecture:** The project follows a clean architecture pattern, separating concerns into Domain, Application, Infrastructure, and Presentation layers.
+*   **Frontend:** The client-side is built with Blazor WebAssembly.
+*   **Backend:** The server-side is built with ASP.NET Core Web API.
+*   **Database:** The application uses PostgreSQL for relational data and MongoDB for other data storage needs.
 
 ## Current Task
 
-I have just finished scaffolding out the initial project structure and fixed all the compilation errors. Now I will run the application to make sure everything is working as expected.
+**Goal:** Initial project setup and fixing build errors.
+
+**Plan:**
+
+1.  [x] Resolve duplicated assembly attribute errors by removing the rogue `myapp.csproj` file.
+2.  [x] Clean the solution by deleting `bin` and `obj` folders.
+3.  [x] Fix package downgrade errors by aligning package versions for `Npgsql.EntityFrameworkCore.PostgreSQL` and `MongoDB.Driver` across all projects.
+4.  [x] Restore NuGet packages for the entire solution.
+5.  [x] Run the `TheCopy.Server` project to host the backend and serve the Blazor client application.
+6.  [ ] Verify that the application is running correctly in the browser.

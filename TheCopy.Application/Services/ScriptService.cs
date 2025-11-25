@@ -1,43 +1,50 @@
-
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using TheCopy.Application.Interfaces;
-using TheCopy.Application.Interfaces.AI;
 using TheCopy.Domain.Entities;
 using TheCopy.Shared.DataTransferObjects;
 
 namespace TheCopy.Application.Services;
 
-public class ScriptService: IScriptService
+public class ScriptService : IScriptService
 {
     private readonly IScriptRepository _scriptRepository;
-    private readonly IGenerativeAiService _generativeAiService;
 
-    public ScriptService(IScriptRepository scriptRepository, IGenerativeAiService generativeAiService)
+    public ScriptService(IScriptRepository scriptRepository)
     {
         _scriptRepository = scriptRepository;
-        _generativeAiService = generativeAiService;
     }
 
-    public async Task<Script> CreateScript(CreateScriptRequestDto model)
+    public async Task<GeneratedScriptDto> CreateScriptAsync(CreateScriptRequestDto request)
     {
-        var content = await _generativeAiService.GenerateContent(model.Prompt);
-
         var script = new Script
         {
-            Title = model.Title,
-            Content = content,
-            ProjectId = model.ProjectId
+            Title = request.Title,
+            Content = request.Content,
+            ProjectId = request.ProjectId
         };
 
         await _scriptRepository.AddAsync(script);
 
-        return script;
+        return new GeneratedScriptDto
+        {
+            Title = script.Title,
+            Content = script.Content
+        };
     }
 
-    public async Task<IEnumerable<Script>> GetScriptsByProject(Guid projectId)
+    public async Task<GeneratedScriptDto> GenerateScriptAsync(string prompt, string genre, string tone)
     {
-        return await _scriptRepository.GetByProjectIdAsync(projectId);
+        // In a real application, you would use a service like GPT-3 or another AI model to generate the script.
+        // For this example, we'll just return a dummy script.
+        var generatedContent = $"This is a generated script based on the prompt: '{prompt}', with a {genre} genre and a {tone} tone.";
+
+        return new GeneratedScriptDto
+        {
+            Title = "Generated Script",
+            Content = generatedContent
+        };
     }
 }

@@ -1,4 +1,5 @@
-
+using TheCopy.Application.Interfaces;
+using BCrypt.Net;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -6,10 +7,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using TheCopy.Application.Interfaces;
 using TheCopy.Domain.Entities;
 using TheCopy.Shared.DataTransferObjects;
-using BCrypt.Net;
 
 namespace TheCopy.Application.Services;
 

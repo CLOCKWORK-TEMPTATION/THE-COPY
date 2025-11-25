@@ -1,5 +1,4 @@
-using TheCopy.Shared.DataTransferObjects;
-
+using TheCopy.Shared.DataTransferObjects; 
 namespace TheCopy.Application.Interfaces;
 
 public interface IAuthService

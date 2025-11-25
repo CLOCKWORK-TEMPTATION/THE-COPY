@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +17,7 @@ public class ProjectService : IProjectService
         _projectRepository = projectRepository;
     }
 
-    public async Task<ProjectDto> CreateProjectAsync(CreateProjectDto request, Guid userId)
+    public async Task<ProjectDto> CreateProjectAsync(CreateProjectRequestDto request, Guid userId)
     {
         var project = new Project
         {

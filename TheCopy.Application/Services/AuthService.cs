@@ -34,7 +34,7 @@ public class AuthService : IAuthService
         var user = new User
         {
             Email = request.Email,
-            PasswordHash = BCrypt.HashPassword(request.Password)
+            PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password)
         };
 
         await _userRepository.AddAsync(user);
@@ -46,7 +46,7 @@ public class AuthService : IAuthService
     public async Task<AuthResponseDto> LoginAsync(LoginRequestDto request)
     {
         var user = await _userRepository.GetByEmailAsync(request.Email);
-        if (user == null || !BCrypt.Verify(request.Password, user.PasswordHash))
+        if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
         {
             return new AuthResponseDto { Success = false, Message = "Invalid credentials." };
         }

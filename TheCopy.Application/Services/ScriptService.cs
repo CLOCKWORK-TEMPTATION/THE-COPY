@@ -22,7 +22,7 @@ public class ScriptService : IScriptService
         var script = new Script
         {
             Title = request.Title,
-            Content = request.Content,
+            Content = request.Prompt, // Changed from request.Content
             ProjectId = request.ProjectId
         };
 

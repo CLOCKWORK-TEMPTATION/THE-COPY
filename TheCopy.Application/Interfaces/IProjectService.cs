@@ -1,4 +1,4 @@
-using TheCopy.Shared.DTOs;
+using TheCopy.Shared.DataTransferObjects;
 
 namespace TheCopy.Application.Interfaces;
 

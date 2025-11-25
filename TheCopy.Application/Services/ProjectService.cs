@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TheCopy.Application.Interfaces;
 using TheCopy.Domain.Entities;
-using TheCopy.Shared.DTOs;
+using TheCopy.Shared.DataTransferObjects;
 
 namespace TheCopy.Application.Services;
 

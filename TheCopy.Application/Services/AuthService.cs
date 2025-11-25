@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheCopy.Application.Interfaces;
 using TheCopy.Domain.Entities;
-using TheCopy.Shared.DTOs;
+using TheCopy.Shared.DataTransferObjects;
 using BCrypt.Net;
 
 namespace TheCopy.Application.Services;

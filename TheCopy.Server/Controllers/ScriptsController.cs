@@ -24,15 +24,7 @@ namespace TheCopy.Server.Controllers
         {
             try
             {
-                var script = await _scriptService.CreateScript(model);
-                var scriptDto = new GeneratedScriptDto
-                {
-                    Id = script.Id,
-                    Title = script.Title,
-                    Content = script.Content,
-                    ProjectId = script.ProjectId,
-                    CreatedAt = script.CreatedAt
-                };
+                var scriptDto = await _scriptService.CreateScriptAsync(model);
                 return Ok(scriptDto);
             }
             catch (Exception ex)
@@ -41,11 +33,18 @@ namespace TheCopy.Server.Controllers
             }
         }
 
-        [HttpGet("project/{projectId}")]
-        public async Task<IActionResult> GetScriptsByProject(Guid projectId)
+        [HttpPost("ai-generate")]
+        public async Task<IActionResult> GenerateScriptWithAI(string prompt, string genre, string tone)
         {
-            var scripts = await _scriptService.GetScriptsByProject(projectId);
-            return Ok(scripts);
+            try
+            {
+                var scriptDto = await _scriptService.GenerateScriptAsync(prompt, genre, tone);
+                return Ok(scriptDto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

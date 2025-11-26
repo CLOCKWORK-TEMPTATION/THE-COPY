@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TheCopy.Application.Interfaces;
+using TheCopy.Application.Interfaces.AI;
 using TheCopy.Infrastructure.Data;
 using TheCopy.Infrastructure.Services.AI;
 
@@ -16,7 +17,7 @@ public static class ServiceCollectionExtensions
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseNpgsql(connectionString));
 
-        if (configuration.GetValue<bool>("UseMockAi"))
+        if (configuration["UseMockAi"] == "true")
         {
             services.AddSingleton<IGenerativeAiService, MockGenerativeAiService>();
         }

@@ -28,9 +28,19 @@ public class ProjectRepository : IProjectRepository
         return await _context.Projects.Where(p => p.UserId == userId).ToListAsync();
     }
 
+    public async Task<IEnumerable<Project>> GetAllAsync()
+    {
+        return await _context.Projects.ToListAsync();
+    }
+
     public async Task AddAsync(Project project)
     {
         _context.Projects.Add(project);
         await _context.SaveChangesAsync();
+    }
+
+    public void Remove(Project project)
+    {
+        _context.Projects.Remove(project);
     }
 }

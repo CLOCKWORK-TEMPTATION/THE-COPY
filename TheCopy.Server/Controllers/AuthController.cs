@@ -22,9 +22,8 @@ public class AuthController : ControllerBase
     {
         try
         {
-            var user = await _authService.Register(model);
-            var token = _authService.Login(new LoginRequestDto { Email = user.Email, Password = model.Password });
-            return Ok(new AuthResponseDto { Token = token });
+            var response = await _authService.RegisterAsync(model);
+            return Ok(response);
         }
         catch (System.Exception ex)
         {
@@ -33,12 +32,12 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
-    public IActionResult Login(LoginRequestDto model)
+    public async Task<IActionResult> Login(LoginRequestDto model)
     {
         try
         {
-            var token = _authService.Login(model);
-            return Ok(new AuthResponseDto { Token = token });
+            var response = await _authService.LoginAsync(model);
+            return Ok(response);
         }
         catch (System.UnauthorizedAccessException ex)
         {
